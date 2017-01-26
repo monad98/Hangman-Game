@@ -13,10 +13,42 @@
 </head>
 
 <body>
-  <h1>Hangman Game</h1>
-  <input id="hangmanInput" type="text"> 
-  <button id= "newGameBtn" class="btn btn-primary">Start New Game</button>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <div class="container">
+    <header class="page-header">
+      <h1 class="text-center">Hangman Game <small>Capital City</small></h1>
+    </header>
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading text-center">
+            <h3>What city of photo is this?</h3>
+          </div>
+          <div class="panel-body">
+            <div class="thumbnail relative">
+              <!--https://pixabay.com/en/international-world-flags-countries-1751293/-->
+              <img id="capitalPhoto" src="assets/images/flags.png" alt="Captial Photo">
+              <img id="loading" src="assets/images/loading.gif">
+              <button id="refreshBtn" class="btn btn-info"><i class="glyphicon glyphicon-refresh"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <div class="thumbnail">
+          <img src="assets/images/d-6.jpg" alt="Hangman">
+        </div>
+        <form>
+          <div class="form-group">
+            <label class="sr-only" for="hangmanInput">Hangman Input</label>
+            <input type="text" class="form-control" id="hangmanInput" placeholder="?" maxlength="1">
+          </div>
+        </form>
+        <div>
+          <button id="newGameBtn" class="btn btn-primary">Start New Game</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <script type="text/javascript" src="assets/javascript/capital-city.js"></script>
   <script type="text/javascript" src="assets/javascript/game.js"></script>
 </body>
