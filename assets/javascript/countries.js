@@ -1,5 +1,5 @@
 // contry-capitals from https://github.com/icyrockcom/country-capitals/blob/master/data/country-list.json
-var capitalCities = [{
+var _countries = [{
     "country": "Abkhazia",
     "capital": "Sukhumi",
     "type": "countryCapital"

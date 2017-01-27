@@ -16,19 +16,89 @@
   right: 0;
   bottom: 0;
   margin: auto;
-  /*left: 50%-32px;*/
 }
-#remainingGuess {
+.no-margin {
+  margin: 0;
+}
+#hangmanInputBox {
+  background-color: #337ab7;
+  color: yellow;
+  border-radius: 50%;
   position: absolute;
-  right: 10px;
-  bottom: 5px;
-  font-size: 20px;
-  font-weight: bold;
+  bottom: 15px;
+  right: 25px;
+  font-size: 30px;
+  width: 50px;
+  height: 50px;
+  padding-top: 3px;
+  text-align: center;
 }
-#currentGuessedWord, #letterGuessed {
-  height: 80px;
+
+#cursor.blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    visibility: hidden;
+  }
+}
+
+#remainingGuess {
+  font-weight: bold;
+  color: yellow
+}
+
+#currentGuessedWord {
+  min-height: 80px;
   padding: 20px;
-  /*change spacing in javascript to take full width with city name's length*/
-  letter-spacing: 10px; 
+  font-size: 30px;
+  display: flex;
+  justify-content: space-around;
+}
+
+#letterGuessed {
+  min-height: 70px;
+  padding: 20px;
   font-size: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+#congratulation, #gameover {
+  display: none;
+  max-width: 640px;
+  max-height: 373px;
+  position: fixed;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: lightyellow;
+  box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.4), 0 15px 30px 0 rgba(0, 0, 0, 0.4);
+}
+
+#newGameBtn-c {
+  position: absolute;
+  right: 0;
+  top: 40%;
+}
+#newGameBtn-g {
+  position: fixed;
+  bottom: 20%;
+  right: 0;
+  left: 0;
+  margin: auto;
+}
+.instruction {
+  padding-left: 10px;
+}
+
+.instruction p {
+  font-size: 16px;
+}
+
+.panel-body {
+  padding: 8px;
 }

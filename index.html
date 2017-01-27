@@ -15,18 +15,25 @@
 <body>
   <div class="container">
     <header class="page-header">
-      <h1 class="text-center">Hangman Game <small>Capital City</small></h1>
+      <h1 class="text-center">Hangman Game <small>Countries name</small></h1>
     </header>
     <div class="row">
+      <div class="col-md-12">
+        <div class="instruction">
+          <p><strong>1. Press any key from a to z and from A to Z</strong></p>
+          <p><strong>2. Press refresh button on the upper left corner of the country image.</strong></p>
+          <p><strong>3. Don's use vpn to load images</strong></p><br>
+        </div>
+      </div>
       <div class="col-md-6 col-sm-6">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
           <div class="panel-heading text-center">
-            <h3>What city of photo is this?</h3>
+            <h3>What Country Of Photo Is This?</h3>
           </div>
           <div class="panel-body">
-            <div class="thumbnail relative">
-              <!--https://pixabay.com/en/international-world-flags-countries-1751293/-->
-              <img id="capitalPhoto" src="assets/images/flags.png" alt="Captial Photo">
+            <div class="thumbnail no-margin relative">
+              <!--source: https://pixabay.com/en/international-world-flags-countries-1751293/-->
+              <img id="countryPhoto" src="assets/images/flags.png" alt="Captial Photo">
               <img id="loading" src="assets/images/loading.gif">
               <button id="refreshBtn" class="btn btn-info"><i class="glyphicon glyphicon-refresh"></i></button>
             </div>
@@ -34,27 +41,35 @@
         </div>
       </div>
       <div class="col-md-6 col-sm-6">
-        <div class="thumbnail relative">
-          <img id="remainingPhoto" src="assets/images/d-6.jpg" alt="Hangman">
-          <div id="remainingGuess"></div>
-        </div>
-        <div id="currentGuessedWord">
-          
-        </div>
-        <form>
-          <div class="form-group">
-            <label class="sr-only" for="hangmanInput">Hangman Input</label>
-            <input type="text" class="form-control" id="hangmanInput" placeholder="?" maxlength="1">
+        <div class="panel panel-primary">
+          <div class="panel-heading text-center">
+            <h3>You have <span id="remainingGuess">6</span> chances left!</h3>
           </div>
-        </form>
-        <div id="letterGuessed"></div>
-        <div>
-          <button id="newGameBtn" class="btn btn-primary">Start New Game</button>
+          <div class="thumbnail relative">
+            <img id="hangmanPhoto" src="assets/images/d-6.jpg" alt="Hangman">
+            <div id="hangmanInputBox"><span id="cursor" class="blink">_</span></div>
+          </div>
+          <h3 class="text-center">Current Word</h3>
+          <div id="currentGuessedWord">
+          </div>
+          <h3 class="text-center">Letter Guessed</h3>
+          <div class="text-center" id="letterGuessed">_</div>
         </div>
       </div>
     </div>
   </div>
-  <script type="text/javascript" src="assets/javascript/capital-city.js"></script>
+  <!--source: https://pixabay.com/en/banner-postcard-day-st-plate-flag-2005219/-->
+  <div id="congratulation">
+    <img src="assets/images/congratulation.png">
+    <p>Congratulation~!</p>
+    <button id="newGameBtn-c" class="btn btn-primary">Start New Game</button>
+  </div>
+  <div id="gameover">
+    <img src="assets/images/gameover.jpg">
+    <p>Game over~!</p>
+    <button id="newGameBtn-g" class="btn btn-primary">Start New Game</button>
+  </div>
+  <script type="text/javascript" src="assets/javascript/countries.js"></script>
   <script type="text/javascript" src="assets/javascript/game.js"></script>
 </body>
 
