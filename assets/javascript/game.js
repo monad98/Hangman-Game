@@ -36,7 +36,13 @@
           else return "_"; // if the letter is neither " " nor "'" , this letter is what we need to hide
         });
       console.log("SelectedCapital is " + selectedCapital);
-      console.log("Hided captinal is " + currentGuessedWord.toString());
+      console.log("Hided captinal is " + currentGuessedWord);
+      viewUpdateforcurrentGuessedWord();
+    }
+
+    //TODO: merge to selectCapitla function????
+    function viewUpdateforcurrentGuessedWord() {
+      document.getElementById("currentGuessedWord").innerText = currentGuessedWord.join("");
     }
 
     /**
@@ -122,19 +128,22 @@
         .split("") //to array
         .forEach(function (c, index) {
           if (c.toLowerCase() === letter.toLowerCase()) {
+            console.log("got char!")
             currentGuessedWord[index] = c;
             isThereMatchedLetter = true;
           }
         });
       if (!isThereMatchedLetter) remainingGuess -= 1;
-      console.log(currentGuessedWord);
+      console.log("currentGuessedWord is " + currentGuessedWord);
       updateGameStatsOnScreen(); //update the view
     }
 
     //TODO: implement 
     function updateGameStatsOnScreen() {
-      // document.getElementById('currentGuessedWord').innerText = currentGuessedWord[i]
       document.getElementById('remainingGuess').innerText = remainingGuess;
+      document.getElementById('remainingPhoto').src = "assets/images/d-" + remainingGuess + ".jpg";
+      document.getElementById("currentGuessedWord").innerText = currentGuessedWord.join("");
+      document.getElementById("letterGuessed").innerText = letterGuessed.join("");
     }
 
     // Initialize game variable
@@ -151,18 +160,21 @@
      * 2. check if user got answer and if so, user win.
      */
     function checkResult() {
+      viewUpdateforcurrentGuessedWord();
       if (remainingGuess === 0) return showUserLostMessage(); //user lost the game
-      if (letterGuessed.join("") === selectedCapital) return showUserWonMessage(); //user won the game
+      if (currentGuessedWord.join("") === selectedCapital) return showUserWonMessage(); //user won the game
     }
 
     //TODO: implement
     function showUserWonMessage() {
-      
+      console.log("USER WON!");
+      //show information about city or country. this city is capital of -----. this is ----'s info.
     }
 
     //TODO: implement
     function showUserLostMessage() {
-
+      console.log("GAME OVER!");
+      //prevent more input, initialize view, make user press new game button
     }
 
 
@@ -184,8 +196,8 @@
       var letter = ev.key;
       var charCode = letter.charCodeAt(0);
       var keyCode = ev.keyCode;
-      console.log("Typed charcode is " + charCode);
-      console.log("Typed keycode is " + keyCode);
+      // console.log("Typed charcode is " + charCode);
+      // console.log("Typed keycode is " + keyCode);
       if (keyCode < 65 || keyCode > 90) return false; // A(a):65, Z(z):90, check keyCode is valide
       else if (charCode > 122 || charCode < 65 || (charCode > 90 && charCode < 97)) return false; // A: 65, Z:90, a: 97, z: 122
       else if (letterGuessed.indexOf(letter) > -1) return false; // already tried letter

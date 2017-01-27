@@ -34,8 +34,12 @@
         </div>
       </div>
       <div class="col-md-6 col-sm-6">
-        <div class="thumbnail">
-          <img src="assets/images/d-6.jpg" alt="Hangman">
+        <div class="thumbnail relative">
+          <img id="remainingPhoto" src="assets/images/d-6.jpg" alt="Hangman">
+          <div id="remainingGuess"></div>
+        </div>
+        <div id="currentGuessedWord">
+          
         </div>
         <form>
           <div class="form-group">
@@ -43,6 +47,7 @@
             <input type="text" class="form-control" id="hangmanInput" placeholder="?" maxlength="1">
           </div>
         </form>
+        <div id="letterGuessed"></div>
         <div>
           <button id="newGameBtn" class="btn btn-primary">Start New Game</button>
         </div>

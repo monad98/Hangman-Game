@@ -18,3 +18,17 @@
   margin: auto;
   /*left: 50%-32px;*/
 }
+#remainingGuess {
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+#currentGuessedWord, #letterGuessed {
+  height: 80px;
+  padding: 20px;
+  /*change spacing in javascript to take full width with city name's length*/
+  letter-spacing: 10px; 
+  font-size: 20px;
+}
