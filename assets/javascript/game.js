@@ -31,8 +31,8 @@
      */
     // var gameover = new Event("gameover");
     // var userwon = new Event("userwon");
-
-
+    var wrongSound = new Audio("assets/sounds/wrong.mp3");
+    var correctSound = new Audio("assets/sounds/correct.mp3");
 
     /**
      * Functions for fetching country photo using Flick API
@@ -90,7 +90,7 @@
       currentGuessedWord = selectedCountry //Hide selected country name.
         .split("") // to array
         .map(function (letter) {
-          if (letter === " " || letter === "'") return letter;
+          if (letter === " " || letter === "'" || letter === "-") return letter;
           else return "_"; // if the letter is neither " " nor "'" , this letter is what we need to hide
         });
       console.log("SelectedCountry is " + selectedCountry);
@@ -123,7 +123,12 @@
             isThereMatchedLetter = true;
           }
         });
-      if (!isThereMatchedLetter) remainingGuess -= 1;
+      if (!isThereMatchedLetter) {
+        remainingGuess -= 1;
+        wrongSound.play();
+      } else {
+        correctSound.play();
+      }
       console.log("currentGuessedWord is " + currentGuessedWord);
     }
 
@@ -155,12 +160,14 @@
      * View Update functions
      */
     function initializeView() {
-      document.getElementById('hangmanPhoto').src = "assets/images/d-6.jpg";
-      document.getElementById('congratulation').style.display = "none";
-      document.getElementById('gameover').style.display = "none";
-      document.getElementById('remainingGuess').innerHTML = "6";
-      document.getElementsByClassName('container')[0].style.opacity = 0.2;
+      document.getElementById("hangmanPhoto").src = "assets/images/d-6.jpg";
+      document.getElementById("congratulation").style.display = "none";
+      document.getElementById("gameover").style.display = "none";
+      document.getElementById("remainingGuess").innerHTML = "6";
+      document.getElementsByClassName("container")[0].style.opacity = 0.2;
       document.getElementById("letterGuessed").innerHTML = "_";
+      document.getElementById("audioPlayer").volume = 0.3;
+
     }
 
     function viewUpdateAfterUserInput(letter) {
@@ -184,23 +191,22 @@
       // update current guess word
       document.getElementById("currentGuessedWord").innerHTML = "<span>" + currentGuessedWord.join("</span><span>") + "</span>";
       // document.getElementById("currentGuessedWord").innerHTML = "<div>a</div><div>a</div><div>a</div><div>a</div><div>a</div><div>a</div><div>a</div>"
-      
+
     }
     //TODO: implement
     function viewUpdateForUserWonMessage() {
       console.log("USER WON!");
-      document.getElementById('congratulation').style.display = "inline-block";
-      // disableUserInput();
+      document.getElementById("congratulation").style.display = "inline-block";
+      document.getElementsByClassName("container")[0].style.opacity = 0.2;
       //show information about country. ----. this is ----'s info.
     }
     //TODO: implement
     function viewUpdateForUserLostMessage() {
       console.log("GAME OVER!");
-      document.getElementById('gameover').style.display = "inline-block";
-      // document.dispatchEvent(gameover);
-      // disableUserInput();
-      //prevent more input, initialize view, make user press new game button
+      document.getElementById("gameover").style.display = "inline-block";
+      document.getElementsByClassName("container")[0].style.opacity = 0.2;
     }
+
     function loadPhoto(photoUrl) {
       //function to show fetched photo to screen
       document.getElementById("countryPhoto").src = photoUrl;
@@ -219,11 +225,10 @@
     function stopRefreshCircle() {
       //This function is called after we finish loading new country image
       //and stop showing refresh circle gif image.
-      //TODO: animation
       document.getElementById("countryPhoto").style.opacity = 1;
       document.getElementById("loading").style.display = "none";
       document.getElementById("refreshBtn").style.display = ""; //to default display value
-      document.getElementsByClassName('container')[0].style.opacity = 1; // we need this when new game's first image loaded.
+      document.getElementsByClassName("container")[0].style.opacity = 1; // we need this when new game's first image loaded.
     }
 
 

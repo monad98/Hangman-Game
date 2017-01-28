@@ -17,9 +17,11 @@
   bottom: 0;
   margin: auto;
 }
+
 .no-margin {
   margin: 0;
 }
+
 #hangmanInputBox {
   background-color: #337ab7;
   color: yellow;
@@ -65,32 +67,34 @@
   justify-content: space-around;
 }
 
-#congratulation, #gameover {
+#congratulation,
+#gameover {
   display: none;
-  max-width: 640px;
-  max-height: 373px;
   position: fixed;
-  margin: auto;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   background-color: lightyellow;
   box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.4), 0 15px 30px 0 rgba(0, 0, 0, 0.4);
+}
+#gameover img, #congratulation img {
+  max-width: 640px;
 }
 
 #newGameBtn-c {
   position: absolute;
-  right: 0;
-  top: 40%;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 }
+
 #newGameBtn-g {
-  position: fixed;
+  position: absolute;
   bottom: 20%;
-  right: 0;
-  left: 0;
-  margin: auto;
+  left: 50%;
+  transform: translateX(-50%);
 }
+
 .instruction {
   padding-left: 10px;
 }
@@ -101,4 +105,7 @@
 
 .panel-body {
   padding: 8px;
+}
+.audio-control {
+  margin-top: 15px;
 }
