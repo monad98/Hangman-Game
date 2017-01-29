@@ -17,7 +17,7 @@
     <header class="page-header">
       <h1 class="text-center">Hangman Game <small> - Guess names of country</small></h1>
       <div class="pull-right audio-control">
-        <audio id="audioPlayer" item-width="200" item-height="50" controls autoplay>
+        <audio id="audioPlayer" item-width="200" item-height="50" controls >
         <!--https://soundcloud.com/freebmusic/yris-bthelick-on-sen-va-freebackgroundmusic-->
         <source src="assets/sounds/bgm.mp3" type="audio/mpeg">
       </audio>
@@ -25,25 +25,27 @@
       <span class="clearfix"></span>
     </header>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12 col-sm-12">
         <div class="instruction">
-          <p><strong>1. Press any key from a to z and from A to Z</strong></p>
-          <p><strong>2. Press refresh button on the upper left corner of the country image.</strong></p>
-          <p><strong>3. Don's use vpn to load images</strong></p><br>
+          <h2 class="text-center">Press any key from a to z and from A to Z!</h2>
+          <!--<p><strong>1. Press any key from a to z and from A to Z</strong></p>-->
+          <!--<p><strong>2. Click refresh button on the upper left corner of the country image.</strong></p>-->
+          <!--<p><strong>3. Don's use vpn services to load images</strong></p><br>-->
         </div>
       </div>
       <div class="col-md-6 col-sm-6">
         <div class="panel panel-primary">
           <div class="panel-heading text-center">
-            <h3>What Country Of Photo Is This?</h3>
+            <h3>What Country?</h3>
           </div>
           <div class="panel-body">
             <div class="thumbnail no-margin relative">
               <!--source: https://pixabay.com/en/international-world-flags-countries-1751293/-->
-              <img id="countryPhoto" src="assets/images/flags.png" alt="Captial Photo">
+              <img id="countryPhoto" src="assets/images/flags.png" alt="Country Photo">
               <img id="loading" src="assets/images/loading.gif">
               <button id="refreshBtn" class="btn btn-info"><i class="glyphicon glyphicon-refresh"></i></button>
             </div>
+            <p class="text-center">To change the photo, press '1' key or click refresh button.</p>
           </div>
         </div>
       </div>

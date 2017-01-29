@@ -1,3 +1,10 @@
+body {
+  background-image: url("../images/background.jpg");
+  background-size: contain;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
 .relative {
   position: relative;
 }
@@ -40,6 +47,17 @@
   animation: blink 1s step-end infinite;
 }
 
+header.page-header {
+  background-color: #337ab7;
+  padding-top: 30px;
+  margin-top: 0px;
+  color: #fff;
+}
+
+header.page-header small {
+  color: lightyellow
+}
+
 @keyframes blink {
   50% {
     visibility: hidden;
@@ -57,6 +75,7 @@
   font-size: 30px;
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 #letterGuessed {
@@ -65,6 +84,12 @@
   font-size: 20px;
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+#letterGuessed>.blink {
+  color: red;
+  animation: blink 0.5s step-end infinite;
 }
 
 #congratulation,
@@ -77,7 +102,9 @@
   background-color: lightyellow;
   box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.4), 0 15px 30px 0 rgba(0, 0, 0, 0.4);
 }
-#gameover img, #congratulation img {
+
+#gameover img,
+#congratulation img {
   max-width: 640px;
 }
 
@@ -96,16 +123,15 @@
 }
 
 .instruction {
-  padding-left: 10px;
-}
-
-.instruction p {
-  font-size: 16px;
+  padding: 0 15px 15px 15px;
+  color: #337ab7;
+  text-shadow: 1px 1px 6px yellow;
 }
 
 .panel-body {
   padding: 8px;
 }
+
 .audio-control {
-  margin-top: 15px;
+  margin: 15px 15px 0 15px;
 }
