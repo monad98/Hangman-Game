@@ -1,8 +1,6 @@
 body {
-  background-image: url("../images/background.jpg");
   background-size: contain;
-  background-position: center top;
-  background-repeat: no-repeat;
+  background: url("../images/background.jpg") no-repeat center top;
 }
 
 .relative {
@@ -14,7 +12,20 @@ body {
   top: 8px;
   left: 8px;
 }
-
+#hint {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 15px;
+}
+#hintBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
 #loading {
   display: none;
   position: absolute;
@@ -118,8 +129,8 @@ header.page-header small {
 #newGameBtn-g {
   position: absolute;
   bottom: 20%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 30%;
+  transform: translateX(-30%);
 }
 
 .instruction {
@@ -127,7 +138,6 @@ header.page-header small {
   color: #337ab7;
   text-shadow: 1px 1px 6px yellow;
 }
-
 .panel-body {
   padding: 8px;
 }

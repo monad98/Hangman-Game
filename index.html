@@ -5,11 +5,11 @@
   <title>Hangman Game</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
-  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
-  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-theme.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
 <body>
@@ -17,10 +17,10 @@
     <header class="page-header">
       <h1 class="text-center">Hangman Game <small> - Guess names of country</small></h1>
       <div class="pull-right audio-control">
-        <audio id="audioPlayer" item-width="200" item-height="50" controls >
-        <!--https://soundcloud.com/freebmusic/yris-bthelick-on-sen-va-freebackgroundmusic-->
-        <source src="assets/sounds/bgm.mp3" type="audio/mpeg">
-      </audio>
+        <audio id="audioPlayer" item-width="200" item-height="50" controls autoplay>
+          <!--https://soundcloud.com/freebmusic/yris-bthelick-on-sen-va-freebackgroundmusic-->
+          <source src="assets/sounds/bgm.mp3" type="audio/mpeg">
+        </audio>
       </div>
       <span class="clearfix"></span>
     </header>
@@ -28,15 +28,13 @@
       <div class="col-md-12 col-sm-12">
         <div class="instruction">
           <h2 class="text-center">Press any key from a to z and from A to Z!</h2>
-          <!--<p><strong>1. Press any key from a to z and from A to Z</strong></p>-->
-          <!--<p><strong>2. Click refresh button on the upper left corner of the country image.</strong></p>-->
-          <!--<p><strong>3. Don's use vpn services to load images</strong></p><br>-->
         </div>
       </div>
       <div class="col-md-6 col-sm-6">
         <div class="panel panel-primary">
           <div class="panel-heading text-center">
             <h3>What Country?</h3>
+            <span class="clearfix"></span>
           </div>
           <div class="panel-body">
             <div class="thumbnail no-margin relative">
@@ -44,6 +42,25 @@
               <img id="countryPhoto" src="assets/images/flags.png" alt="Country Photo">
               <img id="loading" src="assets/images/loading.gif">
               <button id="refreshBtn" class="btn btn-info"><i class="glyphicon glyphicon-refresh"></i></button>
+              <button id="hintBtn" class="btn btn-success">Hint?</button>
+              <div id="hint">
+                <table class="table table-striped">
+                  <th class="text-center" colspan="2">Hint</th>
+                  <tr>
+                    <td>Capital</td>
+                    <td id="capital"></td>
+                  </tr>
+                  <tr>
+                    <td>Continent</td>
+                    <td id="continent"></td>
+                  </tr>
+                  <tr>
+                    <td>Population</td>
+                    <td id="population"></td>
+                  </tr>
+                </table>
+                <span class="clearfix"></span>
+              </div>
             </div>
             <p class="text-center">To change the photo, press '1' key or click refresh button.</p>
           </div>
