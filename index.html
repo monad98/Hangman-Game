@@ -6,108 +6,120 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-    crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-      crossorigin="anonymous">
-      <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <script src="https://unpkg.com/systemjs@0.20.3/dist/system.js"></script>
+  <!--<script src="https://unpkg.com/@reactivex/rxjs@5.0.0-beta.7/dist/global/Rx.umd.js"></script>-->
+  <script src="assets/javascript/Rx.umd.js"></script>
+  <script>
+    System.config({
+      packages: {
+        "dist": {
+          "defaultExtension": "js",
+          "main": "game"
+        }
+      }
+    });
+    System
+      .import('dist')
+      .then(null, console.error.bind(console));
+  </script>
 </head>
 
 <body>
-  <!--<script src="https://unpkg.com/@reactivex/rxjs@5.0.0-beta.7/dist/global/Rx.umd.js"></script>-->
-  <script src="assets/javascript/Rx.umd.js"></script>
-  <div class="container">
-    <header class="page-header">
-      <h1 class="text-center">Hangman Game <small> - Guess names of country</small></h1>
-      <div class="pull-right audio-control">
-        <audio id="audioPlayer" item-width="200" item-height="50" controls autoplay>
-          <!--https://soundcloud.com/freebmusic/yris-bthelick-on-sen-va-freebackgroundmusic-->
-          <source src="assets/sounds/bgm.mp3" type="audio/mpeg">
-        </audio>
+<div class="container">
+  <header class="page-header">
+    <h1 class="text-center">Hangman Game <small> - Guess names of country</small></h1>
+    <div class="pull-right audio-control">
+      <audio id="audioPlayer" item-width="200" item-height="50" controls autoplay>
+        <!--https://soundcloud.com/freebmusic/yris-bthelick-on-sen-va-freebackgroundmusic-->
+        <source src="assets/sounds/bgm.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+    <span class="clearfix"></span>
+  </header>
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <div class="instruction">
+        <h2 class="text-center">Press any key from a to z and from A to Z!</h2>
       </div>
-      <span class="clearfix"></span>
-    </header>
-    <div class="row">
-      <div class="col-md-12 col-sm-12">
-        <div class="instruction">
-          <h2 class="text-center">Press any key from a to z and from A to Z!</h2>
+    </div>
+    <div class="col-md-6 col-sm-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading text-center">
+          <h3>What Country?</h3>
+          <span class="clearfix"></span>
         </div>
-      </div>
-      <div class="col-md-6 col-sm-6">
-        <div class="panel panel-primary">
-          <div class="panel-heading text-center">
-            <h3>What Country?</h3>
-            <span class="clearfix"></span>
-          </div>
-          <div class="panel-body">
-            <div class="thumbnail no-margin relative">
-              <!--source: https://pixabay.com/en/international-world-flags-countries-1751293/-->
-              <img id="countryPhoto" src="assets/images/flags.png" alt="Country Photo">
-              <img id="loading" src="assets/images/loading.gif">
-              <button id="refreshBtn" class="btn btn-info"><i class="glyphicon glyphicon-refresh"></i></button>
-              <button id="hintBtn" class="btn btn-success">Hint?</button>
-              <div id="hint">
-                <table class="table table-striped">
-                  <th class="text-center" colspan="2">Hint</th>
-                  <tr>
-                    <td>Capital</td>
-                    <td id="capital"></td>
-                  </tr>
-                  <tr>
-                    <td>Continent</td>
-                    <td id="continent"></td>
-                  </tr>
-                  <tr>
-                    <td>Population</td>
-                    <td id="population"></td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-            <p class="text-center">To change the photo, press '1' key or click refresh button.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-sm-6">
-        <div class="panel panel-primary">
-          <div class="panel-heading text-center">
-            <h3>You have <span id="remainingGuess">6</span> chances left!</h3>
-          </div>
-          <div class="thumbnail relative">
-            <img id="hangmanPhoto" src="assets/images/d-6.jpg" alt="Hangman">
-            <div id="hangmanInputBox"><span id="cursor" class="blink">_</span></div>
-            <div id="scoreBoard">
-              <table class="table">
-                <tr class="info">
-                  <td>WIN</td>
-                  <td id="winRecord">0</td>
+        <div class="panel-body">
+          <div class="thumbnail no-margin relative">
+            <!--source: https://pixabay.com/en/international-world-flags-countries-1751293/-->
+            <img id="countryPhoto" src="assets/images/flags.png" alt="Country Photo">
+            <img id="loading" src="assets/images/loading.gif">
+            <button id="refreshBtn" class="btn btn-info"><i class="glyphicon glyphicon-refresh"></i></button>
+            <button id="hintBtn" class="btn btn-success">Hint?</button>
+            <div id="hint">
+              <table class="table table-striped">
+                <th class="text-center" colspan="2">Hint</th>
+                <tr>
+                  <td>Capital</td>
+                  <td id="capital"></td>
                 </tr>
-                <tr class="danger">
-                  <td>LOSE</td>
-                  <td id="loseRecord">0</td>
+                <tr>
+                  <td>Continent</td>
+                  <td id="continent"></td>
+                </tr>
+                <tr>
+                  <td>Population</td>
+                  <td id="population"></td>
                 </tr>
               </table>
             </div>
           </div>
-          <h3 class="text-center">Current Word</h3>
-          <div id="currentGuessedWord">
-          </div>
-          <h3 class="text-center">Letter Guessed</h3>
-          <div class="text-center" id="letterGuessed">_</div>
+          <p class="text-center">To change the photo, press '1' key or click refresh button.</p>
         </div>
       </div>
     </div>
+    <div class="col-md-6 col-sm-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading text-center">
+          <h3>You have <span id="remainingGuess">6</span> chances left!</h3>
+        </div>
+        <div class="thumbnail relative">
+          <img id="hangmanPhoto" src="assets/images/d-6.jpg" alt="Hangman">
+          <div id="hangmanInputBox"><span id="cursor" class="blink">_</span></div>
+          <div id="scoreBoard">
+            <table class="table">
+              <tr class="info">
+                <td>WIN</td>
+                <td id="winRecord">0</td>
+              </tr>
+              <tr class="danger">
+                <td>LOSE</td>
+                <td id="loseRecord">0</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <h3 class="text-center">Current Word</h3>
+        <div id="currentGuessedWord">
+        </div>
+        <h3 class="text-center">Letter Guessed</h3>
+        <div class="text-center" id="letterGuessed">_</div>
+      </div>
+    </div>
   </div>
-  <!--source: https://pixabay.com/en/banner-postcard-day-st-plate-flag-2005219/-->
-  <div id="congratulation">
-    <img src="assets/images/congratulation.png">
-    <button id="newGameBtn-c" class="btn btn-danger btn-lg">Start New Game</button>
-  </div>
-  <div id="gameover">
-    <img src="assets/images/gameover.jpg">
-    <button id="newGameBtn-g" class="btn btn-danger btn-lg">Start New Game</button>
-  </div>
-  <script type="text/javascript" src="assets/javascript/countries.js"></script>
-  <script type="text/javascript" src="assets/javascript/game.js"></script>
+</div>
+<!--source: https://pixabay.com/en/banner-postcard-day-st-plate-flag-2005219/-->
+<div id="congratulation">
+  <img src="assets/images/congratulation.png">
+  <button id="newGameBtn-c" class="btn btn-danger btn-lg">Start New Game</button>
+</div>
+<div id="gameover">
+  <img src="assets/images/gameover.jpg">
+  <button id="newGameBtn-g" class="btn btn-danger btn-lg">Start New Game</button>
+</div>
 </body>
 
 </html>

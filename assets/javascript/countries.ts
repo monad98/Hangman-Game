@@ -1,5 +1,5 @@
 // Countries data from http://peric.github.io/GetCountries/
-var _countries = [{
+export const countries = [{
     "countryCode": "AD",
     "countryName": "Andorra",
     "currencyCode": "EUR",
@@ -4749,4 +4749,4 @@ var _countries = [{
     "isoAlpha3": "ZWE",
     "geonameId": "878675"
   }
-]
+];
