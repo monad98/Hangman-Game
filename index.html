@@ -13,6 +13,7 @@
 </head>
 
 <body>
+  <script src="https://unpkg.com/@reactivex/rxjs@5.0.0-beta.7/dist/global/Rx.umd.js"></script>
   <div class="container">
     <header class="page-header">
       <h1 class="text-center">Hangman Game <small> - Guess names of country</small></h1>
@@ -59,7 +60,6 @@
                     <td id="population"></td>
                   </tr>
                 </table>
-                <span class="clearfix"></span>
               </div>
             </div>
             <p class="text-center">To change the photo, press '1' key or click refresh button.</p>
@@ -74,6 +74,18 @@
           <div class="thumbnail relative">
             <img id="hangmanPhoto" src="assets/images/d-6.jpg" alt="Hangman">
             <div id="hangmanInputBox"><span id="cursor" class="blink">_</span></div>
+            <div id="scoreBoard">
+              <table class="table">
+                <tr class="info">
+                  <td>WIN</td>
+                  <td id="winRecord">0</td>
+                </tr>
+                <tr class="danger">
+                  <td>LOSE</td>
+                  <td id="loseRecord">0</td>
+                </tr>
+              </table>
+            </div>
           </div>
           <h3 class="text-center">Current Word</h3>
           <div id="currentGuessedWord">

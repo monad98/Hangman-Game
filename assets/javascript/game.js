@@ -7,6 +7,28 @@
   var hangman = (function () {
 
     /**
+     * DOM element references
+     */
+    var containerElem = document.getElementsByClassName("container")[0];
+    var hangmanPhotoElem = document.getElementById("hangmanPhoto");
+    var countryPhotoElem = document.getElementById("countryPhoto");
+    var congratMsgBoxElem = document.getElementById("congratulation");
+    var gameOverMsgBoxElem = document.getElementById("gameover");
+    var hintBoxElem = document.getElementById("hint");
+    var currentGuessedWordElem =  document.getElementById("currentGuessedWord");
+    var remainingGuessElem =  document.getElementById("remainingGuess");
+    var letterGuessedBoxElem = document.getElementById("letterGuessed");
+    var audioPlayerElem = document.getElementById("audioPlayer");
+    var cursorElem = document.getElementById("cursor");
+    var loadingElem = document.getElementById("loading");
+    var capitalElem = document.getElementById("capital");
+    var continentElem = document.getElementById("continent");
+    var populationElem = document.getElementById("population");
+    var refreshBtnElem = document.getElementById("refreshBtn");
+    var winRecordElem = document.getElementById("winRecord");
+    var loseRecordElem = document.getElementById("loseRecord");
+
+    /**
      * object for Flickr API
      */
     var flickr = {
@@ -56,6 +78,8 @@
       remainingGuess: 6,
       currentGuessedWord: [],
       gameOverOrUserWon: false,
+      winRecord: 0,
+      loseRecord: 0,
       initializeVariable: function () {
         /* initialize game variable after pressing new game button */
         this.selectedCountryPhotoArray = [];
@@ -64,6 +88,7 @@
         this.remainingGuess = 6;
         this.currentGuessedWord = [];
         this.gameOverOrUserWon = false;
+
       },
       selectCountry: function () {
         // select a random country and make a same length hidden word to show to user
@@ -75,11 +100,13 @@
         // 1. check remaining life and if remaining life is 0, user lose
         if (this.remainingGuess === 0) {
           this.gameOverOrUserWon = true;
+          this.loseRecord += 1;
           return gameView.viewUpdateForUserLostMessage(); //user lost the game
         }
         // 2. check if user got answer and if so, user win.
         if (this.currentGuessedWord.join("") === this.selectedCountry.countryName) {
           this.gameOverOrUserWon = true;
+          this.winRecord += 1;
           return gameView.viewUpdateForUserWonMessage(); //user won the game
         }
         // 3. Game continues
@@ -133,62 +160,63 @@
      */
     var gameView = {
       initializeView: function () {
-        document.getElementById("hangmanPhoto").src = "assets/images/d-6.jpg";
-        document.getElementById("congratulation").style.display = "none";
-        document.getElementById("gameover").style.display = "none";
-        document.getElementById("hint").style.display = "none";
-        document.getElementById("remainingGuess").innerHTML = "6";
-        document.getElementsByClassName("container")[0].style.opacity = 0.2;
-        document.getElementById("letterGuessed").innerHTML = "_";
-        document.getElementById("audioPlayer").volume = 0.3;
+        hangmanPhotoElem.src = "assets/images/d-6.jpg";
+        congratMsgBoxElem.style.display = "none";
+        gameOverMsgBoxElem.style.display = "none";
+        hintBoxElem.style.display = "none";
+        remainingGuessElem.innerHTML = "6";
+        containerElem.style.opacity = 0.2;
+        letterGuessedBoxElem.innerHTML = "_";
+        audioPlayerElem.volume = 0.3;
       },
       viewUpdateAfterUserInput: function (letter /* uppercase */ ) { // update game stat (Life, hanman image, guessed letter, current guessed word)
 
-        document.getElementById("cursor").innerHTML = letter;
-        document.getElementById("cursor").className = "";
+        cursorElem.innerHTML = letter;
+        cursorElem.className = "";
         setTimeout(function () {
-          document.getElementById("cursor").innerHTML = "_";
-          document.getElementById("cursor").className = "blink"; //activate cursor animation again after 1s.
+          cursorElem.innerHTML = "_";
+          cursorElem.className = "blink"; //activate cursor animation again after 1s.
         }, 1000);
 
-        document.getElementById("remainingGuess").innerHTML = gameLogic.remainingGuess.toString();
-        document.getElementById("hangmanPhoto").src = "assets/images/d-" + gameLogic.remainingGuess + ".jpg";
-        document.getElementById("currentGuessedWord").innerHTML = "<span>" + util.convertEmptySpaceToNbsp(gameLogic.currentGuessedWord, letter).join("</span><span>") + "</span>";
-        document.getElementById("letterGuessed").innerHTML = "<span>" + gameLogic.letterGuessed.join("</span><span>") + "</span>";
+        remainingGuessElem.innerHTML = gameLogic.remainingGuess.toString();
+        hangmanPhotoElem.src = "assets/images/d-" + gameLogic.remainingGuess + ".jpg";
+        currentGuessedWordElem.innerHTML = "<span>" + util.convertEmptySpaceToNbsp(gameLogic.currentGuessedWord, letter).join("</span><span>") + "</span>";
+        letterGuessedBoxElem.innerHTML = "<span>" + gameLogic.letterGuessed.join("</span><span>") + "</span>";
       },
       viewUpdateAfterSelectingCountry: function () { // update current guess word
-        document.getElementById("currentGuessedWord").innerHTML = "<span>" + util.convertEmptySpaceToNbsp(gameLogic.currentGuessedWord).join("</span><span>") + "</span>";
+        currentGuessedWordElem.innerHTML = "<span>" + util.convertEmptySpaceToNbsp(gameLogic.currentGuessedWord).join("</span><span>") + "</span>";
 
       },
       viewUpdateForUserWonMessage: function () {
-        document.getElementById("congratulation").style.display = "inline-block";
-        document.getElementsByClassName("container")[0].style.opacity = 0.2;
-        //show information about country. ----. this is ----'s info.
+        congratMsgBoxElem.style.display = "inline-block";
+        containerElem.style.opacity = 0.2;
+        winRecordElem.innerHTML = gameLogic.winRecord.toString();
       },
       viewUpdateForUserLostMessage: function () {
-        document.getElementById("gameover").style.display = "inline-block";
-        document.getElementsByClassName("container")[0].style.opacity = 0.2;
+        gameOverMsgBoxElem.style.display = "inline-block";
+        containerElem.style.opacity = 0.2;
+        loseRecordElem.innerHTML = gameLogic.loseRecord.toString();
       },
       loadPhoto: function (photoUrl) { //function to show fetched photo to screen
-        document.getElementById("countryPhoto").src = photoUrl;
+        countryPhotoElem.src = photoUrl;
         var self = this;
         setTimeout(function () {
           self.stopRefreshCircle();
         }, 1000);
       },
       loadRefreshCircle: function () { //This function shows refresh circle git and hide previous country image
-        document.getElementById("refreshBtn").style.display = "none";
-        document.getElementById("hint").style.display = "none";
-        document.getElementById("countryPhoto").style.opacity = 0;
-        document.getElementById("loading").style.display = "block";
+        refreshBtnElem.style.display = "none";
+        hintBoxElem.style.display = "none";
+        countryPhotoElem.style.opacity = 0;
+        loadingElem.style.display = "block";
       },
       stopRefreshCircle: function () {
         //This function is called after we finish loading new country image
         //and stop showing refresh circle gif image.
-        document.getElementById("countryPhoto").style.opacity = 1;
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("refreshBtn").style.display = ""; //to default display value
-        document.getElementsByClassName("container")[0].style.opacity = 1; // we need this when new game's first image loaded.
+        countryPhotoElem.style.opacity = 1;
+        loadingElem.style.display = "none";
+        refreshBtnElem.style.display = ""; //to default display value
+        containerElem.style.opacity = 1; // we need this when new game's first image loaded.
       },
       alreadyGuessedLetterEffect: function (letter) {
         // if same letter typed again, blink effect on that letter for 2.5s;
@@ -197,9 +225,9 @@
             return '<span class="blink">' + c + "</span>";
           } else return "<span>" + c + "</span>";
         });
-        document.getElementById("letterGuessed").innerHTML = blinkLetterGuessed.join("");
+        letterGuessedBoxElem.innerHTML = blinkLetterGuessed.join("");
         setTimeout(function () {
-          document.getElementById("letterGuessed").innerHTML = "<span>" + gameLogic.letterGuessed.join("</span><span>") + "</span>";
+          letterGuessedBoxElem.innerHTML = "<span>" + gameLogic.letterGuessed.join("</span><span>") + "</span>";
         }, 2500)
       },
       showCountryInfo: function () {
@@ -207,11 +235,11 @@
           capital: gameLogic.selectedCountry.capital,
           continent: gameLogic.selectedCountry.continentName,
           population: gameLogic.selectedCountry.population,
-        }
-        document.getElementById("hint").style.display = "block";
-        document.getElementById("capital").innerHTML = info.capital;
-        document.getElementById("continent").innerHTML = info.continent;
-        document.getElementById("population").innerHTML = info.population;
+        };
+        hintBoxElem.style.display = "block";
+        capitalElem.innerHTML = info.capital;
+        continentElem.innerHTML = info.continent;
+        populationElem.innerHTML = info.population;
       }
     };
 

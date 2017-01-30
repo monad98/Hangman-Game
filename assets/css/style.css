@@ -132,6 +132,12 @@ header.page-header small {
   left: 30%;
   transform: translateX(-30%);
 }
+#scoreBoard {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-weight: bold;
+}
 
 .instruction {
   padding: 0 15px 15px 15px;
