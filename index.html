@@ -12,14 +12,20 @@
   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   <script src="https://unpkg.com/systemjs@0.20.3/dist/system.js"></script>
   <!--<script src="https://unpkg.com/@reactivex/rxjs@5.0.0-beta.7/dist/global/Rx.umd.js"></script>-->
-  <script src="assets/javascript/Rx.umd.js"></script>
+  <!--<script src="assets/javascript/Rx.umd.js"></script>-->
   <script>
     System.config({
       packages: {
         "dist": {
           "defaultExtension": "js",
           "main": "game"
+        },
+        "rxjs": {
+          "defaultExtension": "js"
         }
+      },
+      map: {
+        "rxjs": "node_modules/rxjs"
       }
     });
     System
@@ -33,7 +39,7 @@
   <header class="page-header">
     <h1 class="text-center">Hangman Game <small> - Guess names of country</small></h1>
     <div class="pull-right audio-control">
-      <audio id="audioPlayer" item-width="200" item-height="50" controls autoplay>
+      <audio id="audioPlayer" item-width="200" item-height="50" controls>
         <!--https://soundcloud.com/freebmusic/yris-bthelick-on-sen-va-freebackgroundmusic-->
         <source src="assets/sounds/bgm.mp3" type="audio/mpeg">
       </audio>

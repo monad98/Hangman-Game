@@ -2,24 +2,25 @@
 var util_1 = require("./util");
 var GameView = (function () {
     function GameView() {
-        this.containerElem = document.getElementsByClassName("container")[0];
-        this.hangmanPhotoElem = document.getElementById("hangmanPhoto");
-        this.countryPhotoElem = document.getElementById("countryPhoto");
-        this.congratMsgBoxElem = document.getElementById("congratulation");
-        this.gameOverMsgBoxElem = document.getElementById("gameover");
-        this.hintBoxElem = document.getElementById("hint");
-        this.currentGuessedWordElem = document.getElementById("currentGuessedWord");
-        this.remainingGuessElem = document.getElementById("remainingGuess");
-        this.letterGuessedBoxElem = document.getElementById("letterGuessed");
-        this.audioPlayerElem = document.getElementById("audioPlayer");
-        this.cursorElem = document.getElementById("cursor");
-        this.loadingElem = document.getElementById("loading");
-        this.capitalElem = document.getElementById("capital");
-        this.continentElem = document.getElementById("continent");
-        this.populationElem = document.getElementById("population");
-        this.refreshBtnElem = document.getElementById("refreshBtn");
-        this.winRecordElem = document.getElementById("winRecord");
-        this.loseRecordElem = document.getElementById("loseRecord");
+        //DOM element
+        this.containerElem = document.querySelector(".container");
+        this.hangmanPhotoElem = document.querySelector("#hangmanPhoto");
+        this.countryPhotoElem = document.querySelector("#countryPhoto");
+        this.congratMsgBoxElem = document.querySelector("#congratulation");
+        this.gameOverMsgBoxElem = document.querySelector("#gameover");
+        this.hintBoxElem = document.querySelector("#hint");
+        this.currentGuessedWordElem = document.querySelector("#currentGuessedWord");
+        this.remainingGuessElem = document.querySelector("#remainingGuess");
+        this.letterGuessedBoxElem = document.querySelector("#letterGuessed");
+        this.audioPlayerElem = document.querySelector("#audioPlayer");
+        this.cursorElem = document.querySelector("#cursor");
+        this.loadingElem = document.querySelector("#loading");
+        this.capitalElem = document.querySelector("#capital");
+        this.continentElem = document.querySelector("#continent");
+        this.populationElem = document.querySelector("#population");
+        this.winRecordElem = document.querySelector("#winRecord");
+        this.loseRecordElem = document.querySelector("#loseRecord");
+        this.refreshBtnElem = document.querySelector("#refreshBtn");
     }
     GameView.prototype.initializeView = function () {
         this.hangmanPhotoElem.src = "assets/images/d-6.jpg";

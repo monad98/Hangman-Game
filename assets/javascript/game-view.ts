@@ -2,24 +2,29 @@ import {GameLogic} from "./game-logic";
 import {Util} from "./util";
 export class GameView {
 
-  containerElem = <HTMLElement>document.getElementsByClassName("container")[0];
-  hangmanPhotoElem = <HTMLImageElement>document.getElementById("hangmanPhoto");
-  countryPhotoElem = <HTMLImageElement>document.getElementById("countryPhoto");
-  congratMsgBoxElem = <HTMLElement>document.getElementById("congratulation");
-  gameOverMsgBoxElem = <HTMLElement>document.getElementById("gameover");
-  hintBoxElem = <HTMLElement>document.getElementById("hint");
-  currentGuessedWordElem =  <HTMLElement>document.getElementById("currentGuessedWord");
-  remainingGuessElem =  <HTMLElement>document.getElementById("remainingGuess");
-  letterGuessedBoxElem = <HTMLElement>document.getElementById("letterGuessed");
-  audioPlayerElem = <HTMLAudioElement>document.getElementById("audioPlayer");
-  cursorElem = <HTMLElement>document.getElementById("cursor");
-  loadingElem = <HTMLElement>document.getElementById("loading");
-  capitalElem = <HTMLElement>document.getElementById("capital");
-  continentElem = <HTMLElement>document.getElementById("continent");
-  populationElem = <HTMLElement>document.getElementById("population");
-  refreshBtnElem = <HTMLElement>document.getElementById("refreshBtn");
-  winRecordElem = <HTMLElement>document.getElementById("winRecord");
-  loseRecordElem = <HTMLElement>document.getElementById("loseRecord");
+  constructor() {
+
+  }
+
+  //DOM element
+  containerElem = <HTMLElement>document.querySelector(".container");
+  hangmanPhotoElem = <HTMLImageElement>document.querySelector("#hangmanPhoto");
+  countryPhotoElem = <HTMLImageElement>document.querySelector("#countryPhoto");
+  congratMsgBoxElem = <HTMLElement>document.querySelector("#congratulation");
+  gameOverMsgBoxElem = <HTMLElement>document.querySelector("#gameover");
+  hintBoxElem = <HTMLElement>document.querySelector("#hint");
+  currentGuessedWordElem =  <HTMLElement>document.querySelector("#currentGuessedWord");
+  remainingGuessElem =  <HTMLElement>document.querySelector("#remainingGuess");
+  letterGuessedBoxElem = <HTMLElement>document.querySelector("#letterGuessed");
+  audioPlayerElem = <HTMLAudioElement>document.querySelector("#audioPlayer");
+  cursorElem = <HTMLElement>document.querySelector("#cursor");
+  loadingElem = <HTMLElement>document.querySelector("#loading");
+  capitalElem = <HTMLElement>document.querySelector("#capital");
+  continentElem = <HTMLElement>document.querySelector("#continent");
+  populationElem = <HTMLElement>document.querySelector("#population");
+  winRecordElem = <HTMLElement>document.querySelector("#winRecord");
+  loseRecordElem = <HTMLElement>document.querySelector("#loseRecord");
+  refreshBtnElem = <HTMLElement>document.querySelector("#refreshBtn");
 
   initializeView () {
     this.hangmanPhotoElem.src = "assets/images/d-6.jpg";

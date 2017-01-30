@@ -4,6 +4,9 @@ var game_logic_1 = require("./game-logic");
 var game_view_1 = require("./game-view");
 var flickr_1 = require("./flickr");
 var sound_effects_1 = require("./sound-effects");
+var Observable_1 = require("rxjs/Observable");
+require('rxjs/add/observable/fromEvent');
+require('rxjs/add/observable/merge');
 /**
  * Hangman Game Object
  */
@@ -12,6 +15,18 @@ var Hangman = (function () {
         this.gameLogic = gameLogic;
         this.gameView = gameView;
         this.flickr = flickr;
+        //Button elements
+        this.refreshBtnElem = document.querySelector("#refreshBtn");
+        this.newGameBtnWin = document.getElementById("newGameBtn-c");
+        this.newGameBtnLose = document.getElementById("newGameBtn-g");
+        this.hintBtn = document.getElementById("hintBtn");
+        this.refreshClickStream = Observable_1.Observable.fromEvent(this.refreshBtnElem, "click");
+        var newGameClickStreamAfterWin = Observable_1.Observable.fromEvent(this.newGameBtnWin, "click");
+        var newGameClickStreamAfterLost = Observable_1.Observable.fromEvent(this.newGameBtnLose, "click");
+        this.newGameClickStream = Observable_1.Observable.merge(newGameClickStreamAfterWin, newGameClickStreamAfterLost);
+        this.hintClickSteam = Observable_1.Observable.fromEvent(this.hintBtn, "click");
+        this.keyupStream = Observable_1.Observable.fromEvent(document.body, 'keyup');
+        this.newGame();
     }
     Hangman.prototype.onUserInput = function (ev) {
         // method to process an input letter
@@ -62,9 +77,12 @@ var flickr = new flickr_1.Flickr();
 var gameView = new game_view_1.GameView();
 var gameLogic = new game_logic_1.GameLogic(gameView, soundEffects);
 var hangman = new Hangman(gameLogic, gameView, flickr);
-hangman.newGame();
-document.body.addEventListener("keyup", hangman.onUserInput.bind(hangman));
-document.getElementById("newGameBtn-c").addEventListener("click", hangman.newGame.bind(hangman));
-document.getElementById("newGameBtn-g").addEventListener("click", hangman.newGame.bind(hangman));
-document.getElementById("refreshBtn").addEventListener("click", hangman.getAnotherPhoto.bind(hangman));
-document.getElementById("hintBtn").addEventListener("click", hangman.showHint.bind(hangman));
+// hangman.newGame();
+// Observable.fromEvent((<HTMLButtonElement>document.querySelector("#refreshBtn")), "click")
+//   .subscribe((ev) => console.log("!!@#!@#!@#"));
+//
+// document.body.addEventListener("keyup", hangman.onUserInput.bind(hangman));
+// (<HTMLButtonElement>document.getElementById("newGameBtn-c")).addEventListener("click", hangman.newGame.bind(hangman));
+// (<HTMLButtonElement>document.getElementById("newGameBtn-g")).addEventListener("click", hangman.newGame.bind(hangman));
+// // (<HTMLButtonElement>document.getElementById("refreshBtn")).addEventListener("click", hangman.getAnotherPhoto.bind(hangman));
+// (<HTMLButtonElement>document.getElementById("hintBtn")).addEventListener("click", hangman.showHint.bind(hangman));
