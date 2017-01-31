@@ -6,7 +6,12 @@ import {SoundEffects} from "./sound-effects";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
-
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/share';
 
 
 
@@ -17,38 +22,49 @@ export class Hangman {
 
   constructor(private gameLogic: GameLogic, private gameView: GameView, private flickr: Flickr) {
 
-    this.refreshClickStream = Observable.fromEvent(this.refreshBtnElem, "click");
-    const newGameClickStreamAfterWin = Observable.fromEvent(this.newGameBtnWin, "click");
-    const newGameClickStreamAfterLost = Observable.fromEvent(this.newGameBtnLose, "click");
-    this.newGameClickStream = Observable.merge(newGameClickStreamAfterWin, newGameClickStreamAfterLost);
-    this.hintClickSteam = Observable.fromEvent(this.hintBtn, "click");
-    this.keyupStream = Observable.fromEvent(document.body, 'keyup');
+    const refreshClick$ = Observable.fromEvent(this.refreshBtnElem, "click");
+    const newGameClickAfterWin$ = Observable.fromEvent(this.newGameBtnWin, "click");
+    const newGameClickAfterLost$ = Observable.fromEvent(this.newGameBtnLose, "click");
+    const newGameClick$ = Observable.merge(newGameClickAfterWin$, newGameClickAfterLost$);
+    const hintClick$ = Observable.fromEvent(this.hintBtn, "click");
+
+
+    const keyup$ = Observable.fromEvent(document.body, 'keyup')
+      .map((ev:KeyboardEvent) => ev.key)
+      .withLatestFrom(this.gameLogic.gameOverOrUserWon$, (letter: string, gameOverOrUserWon: boolean) => {
+        return !gameOverOrUserWon ? letter.toUpperCase() : null;
+      })
+      .share();
+    const refreshPhotoKey$ = keyup$.filter((letter: string) => letter === "1");
+    const validKey$ = keyup$
+      .filter((letter: string) => /^[A-Z]$/i.test(letter));
+    const getAnotherPhoto$ = Observable.merge(refreshClick$, refreshPhotoKey$);
+
+
+    validKey$.subscribe((validUpperCaseLetter) => {
+      this.gameLogic.pushToLetterGuessed(validUpperCaseLetter); // if valid input, next step => add this letter to letter guessed input
+      this.gameLogic.checkInputLetter(validUpperCaseLetter); //check if this letter is part of the selected captial
+      this.gameView.viewUpdateAfterUserInput(validUpperCaseLetter, this.gameLogic); //update the view
+      this.gameLogic.checkResult();
+    });
+    newGameClick$.subscribe(this.newGame.bind(this));
+    getAnotherPhoto$.subscribe(this.getAnotherPhoto.bind(this));
+    hintClick$.subscribe(this.showHint.bind(this));
 
     this.newGame();
 
   }
   //Button elements
   refreshBtnElem = <HTMLElement>document.querySelector("#refreshBtn");
-  newGameBtnWin = <HTMLButtonElement>document.getElementById("newGameBtn-c");
-  newGameBtnLose = <HTMLButtonElement>document.getElementById("newGameBtn-g");
-  hintBtn = <HTMLButtonElement>document.getElementById("hintBtn");
+  newGameBtnWin = <HTMLButtonElement>document.querySelector("#newGameBtn-c");
+  newGameBtnLose = <HTMLButtonElement>document.querySelector("#newGameBtn-g");
+  hintBtn = <HTMLButtonElement>document.querySelector("#hintBtn");
 
-  //Stream
-  refreshClickStream: Observable<any>;
-  newGameClickStream: Observable<any>;
-  hintClickSteam: Observable<any>;
-  keyupStream: Observable<any>;
-
-  onUserInput (ev: KeyboardEvent) {
+  onUserInput (validUpperCase: string) {
     // method to process an input letter
-    if (this.gameLogic.gameOverOrUserWon) return;
-    let letter = ev.key;
-    if (letter === "1") return this.getAnotherPhoto();
-    if (!this.gameLogic.isValidInput(ev)) return; // if not valid input, just ignore user input and finish function execution
-    letter = letter.toUpperCase();
-    this.gameLogic.pushToLetterGuessed(letter); // if valid input, next step => add this letter to letter guessed input
-    this.gameLogic.checkInputLetter(letter); //check if this letter is part of the selected captial
-    this.gameView.viewUpdateAfterUserInput(letter, this.gameLogic); //update the view
+    this.gameLogic.pushToLetterGuessed(validUpperCase); // if valid input, next step => add this letter to letter guessed input
+    this.gameLogic.checkInputLetter(validUpperCase); //check if this letter is part of the selected captial
+    this.gameView.viewUpdateAfterUserInput(validUpperCase, this.gameLogic); //update the view
     this.gameLogic.checkResult();
   }
   newGame () {

@@ -5,6 +5,7 @@
 var countries_1 = require("./countries");
 var util_1 = require("./util");
 var sound_effects_1 = require("./sound-effects");
+var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
 var GameLogic = (function () {
     function GameLogic(gameView, soundEffects) {
         this.gameView = gameView;
@@ -14,9 +15,10 @@ var GameLogic = (function () {
         this.letterGuessed = [];
         this.remainingGuess = 6;
         this.currentGuessedWord = [];
-        this.gameOverOrUserWon = false;
+        // gameOverOrUserWon: boolean = false;
         this.winRecord = 0;
         this.loseRecord = 0;
+        this.gameOverOrUserWon$ = new BehaviorSubject_1.BehaviorSubject(false);
     }
     GameLogic.prototype.initializeVariable = function () {
         /* initialize game variable after pressing new game button */
@@ -25,7 +27,7 @@ var GameLogic = (function () {
         this.letterGuessed = [];
         this.remainingGuess = 6;
         this.currentGuessedWord = [];
-        this.gameOverOrUserWon = false;
+        this.gameOverOrUserWon$.next(false);
     };
     GameLogic.prototype.selectCountry = function () {
         // select a random country and make a same length hidden word to show to user
@@ -36,13 +38,13 @@ var GameLogic = (function () {
     GameLogic.prototype.checkResult = function () {
         // 1. check remaining life and if remaining life is 0, user lose
         if (this.remainingGuess === 0) {
-            this.gameOverOrUserWon = true;
+            this.gameOverOrUserWon$.next(true);
             this.loseRecord += 1;
             return this.gameView.viewUpdateForUserLostMessage(this); //user lost the game
         }
         // 2. check if user got answer and if so, user win.
         if (this.currentGuessedWord.join("") === this.selectedCountry.countryName) {
-            this.gameOverOrUserWon = true;
+            this.gameOverOrUserWon$.next(true);
             this.winRecord += 1;
             return this.gameView.viewUpdateForUserWonMessage(this); //user won the game
         }

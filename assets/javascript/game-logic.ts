@@ -5,17 +5,20 @@ import {countries} from "./countries";
 import {GameView} from "./game-view";
 import {Util} from "./util";
 import {SoundEffects} from "./sound-effects";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 export class GameLogic {
   constructor(private gameView: GameView, private soundEffects: SoundEffects) {
-
+    this.gameOverOrUserWon$ = new BehaviorSubject(false);
   }
   selectedCountryPhotoArray: Array<any>  =  [];
   selectedCountry: any = {};
   letterGuessed: Array<any> = [];
   remainingGuess: number = 6;
   currentGuessedWord: Array<any> = [];
-  gameOverOrUserWon: boolean = false;
+  gameOverOrUserWon$: BehaviorSubject<boolean>;
+
+  // gameOverOrUserWon: boolean = false;
   winRecord: number = 0;
   loseRecord: number = 0;
 
@@ -26,7 +29,7 @@ export class GameLogic {
     this.letterGuessed = [];
     this.remainingGuess = 6;
     this.currentGuessedWord = [];
-    this.gameOverOrUserWon = false;
+    this.gameOverOrUserWon$.next(false);
   }
   selectCountry () {
     // select a random country and make a same length hidden word to show to user
@@ -37,13 +40,13 @@ export class GameLogic {
   checkResult () {
     // 1. check remaining life and if remaining life is 0, user lose
     if (this.remainingGuess === 0) {
-      this.gameOverOrUserWon = true;
+      this.gameOverOrUserWon$.next(true);
       this.loseRecord += 1;
       return this.gameView.viewUpdateForUserLostMessage(this); //user lost the game
     }
     // 2. check if user got answer and if so, user win.
     if (this.currentGuessedWord.join("") === this.selectedCountry.countryName) {
-      this.gameOverOrUserWon = true;
+      this.gameOverOrUserWon$.next(true);
       this.winRecord += 1;
       return this.gameView.viewUpdateForUserWonMessage(this); //user won the game
     }

@@ -7,40 +7,57 @@ var sound_effects_1 = require("./sound-effects");
 var Observable_1 = require("rxjs/Observable");
 require("rxjs/add/observable/fromEvent");
 require("rxjs/add/observable/merge");
+require("rxjs/add/observable/of");
+require("rxjs/add/operator/map");
+require("rxjs/add/operator/filter");
+require("rxjs/add/operator/withLatestFrom");
+require("rxjs/add/operator/do");
+require("rxjs/add/operator/share");
 /**
  * Hangman Game Object
  */
 var Hangman = (function () {
     function Hangman(gameLogic, gameView, flickr) {
+        var _this = this;
         this.gameLogic = gameLogic;
         this.gameView = gameView;
         this.flickr = flickr;
         //Button elements
         this.refreshBtnElem = document.querySelector("#refreshBtn");
-        this.newGameBtnWin = document.getElementById("newGameBtn-c");
-        this.newGameBtnLose = document.getElementById("newGameBtn-g");
-        this.hintBtn = document.getElementById("hintBtn");
-        this.refreshClickStream = Observable_1.Observable.fromEvent(this.refreshBtnElem, "click");
-        var newGameClickStreamAfterWin = Observable_1.Observable.fromEvent(this.newGameBtnWin, "click");
-        var newGameClickStreamAfterLost = Observable_1.Observable.fromEvent(this.newGameBtnLose, "click");
-        this.newGameClickStream = Observable_1.Observable.merge(newGameClickStreamAfterWin, newGameClickStreamAfterLost);
-        this.hintClickSteam = Observable_1.Observable.fromEvent(this.hintBtn, "click");
-        this.keyupStream = Observable_1.Observable.fromEvent(document.body, 'keyup');
+        this.newGameBtnWin = document.querySelector("#newGameBtn-c");
+        this.newGameBtnLose = document.querySelector("#newGameBtn-g");
+        this.hintBtn = document.querySelector("#hintBtn");
+        var refreshClick$ = Observable_1.Observable.fromEvent(this.refreshBtnElem, "click");
+        var newGameClickAfterWin$ = Observable_1.Observable.fromEvent(this.newGameBtnWin, "click");
+        var newGameClickAfterLost$ = Observable_1.Observable.fromEvent(this.newGameBtnLose, "click");
+        var newGameClick$ = Observable_1.Observable.merge(newGameClickAfterWin$, newGameClickAfterLost$);
+        var hintClick$ = Observable_1.Observable.fromEvent(this.hintBtn, "click");
+        var keyup$ = Observable_1.Observable.fromEvent(document.body, 'keyup')
+            .map(function (ev) { return ev.key; })
+            .withLatestFrom(this.gameLogic.gameOverOrUserWon$, function (letter, gameOverOrUserWon) {
+            return !gameOverOrUserWon ? letter.toUpperCase() : null;
+        })
+            .share();
+        var refreshPhotoKey$ = keyup$.filter(function (letter) { return letter === "1"; });
+        var validKey$ = keyup$
+            .filter(function (letter) { return /^[A-Z]$/i.test(letter); });
+        var getAnotherPhoto$ = Observable_1.Observable.merge(refreshClick$, refreshPhotoKey$);
+        validKey$.subscribe(function (validUpperCaseLetter) {
+            _this.gameLogic.pushToLetterGuessed(validUpperCaseLetter); // if valid input, next step => add this letter to letter guessed input
+            _this.gameLogic.checkInputLetter(validUpperCaseLetter); //check if this letter is part of the selected captial
+            _this.gameView.viewUpdateAfterUserInput(validUpperCaseLetter, _this.gameLogic); //update the view
+            _this.gameLogic.checkResult();
+        });
+        newGameClick$.subscribe(this.newGame.bind(this));
+        getAnotherPhoto$.subscribe(this.getAnotherPhoto.bind(this));
+        hintClick$.subscribe(this.showHint.bind(this));
         this.newGame();
     }
-    Hangman.prototype.onUserInput = function (ev) {
+    Hangman.prototype.onUserInput = function (validUpperCase) {
         // method to process an input letter
-        if (this.gameLogic.gameOverOrUserWon)
-            return;
-        var letter = ev.key;
-        if (letter === "1")
-            return this.getAnotherPhoto();
-        if (!this.gameLogic.isValidInput(ev))
-            return; // if not valid input, just ignore user input and finish function execution
-        letter = letter.toUpperCase();
-        this.gameLogic.pushToLetterGuessed(letter); // if valid input, next step => add this letter to letter guessed input
-        this.gameLogic.checkInputLetter(letter); //check if this letter is part of the selected captial
-        this.gameView.viewUpdateAfterUserInput(letter, this.gameLogic); //update the view
+        this.gameLogic.pushToLetterGuessed(validUpperCase); // if valid input, next step => add this letter to letter guessed input
+        this.gameLogic.checkInputLetter(validUpperCase); //check if this letter is part of the selected captial
+        this.gameView.viewUpdateAfterUserInput(validUpperCase, this.gameLogic); //update the view
         this.gameLogic.checkResult();
     };
     Hangman.prototype.newGame = function () {
