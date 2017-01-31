@@ -5,8 +5,8 @@ var game_view_1 = require("./game-view");
 var flickr_1 = require("./flickr");
 var sound_effects_1 = require("./sound-effects");
 var Observable_1 = require("rxjs/Observable");
-require('rxjs/add/observable/fromEvent');
-require('rxjs/add/observable/merge');
+require("rxjs/add/observable/fromEvent");
+require("rxjs/add/observable/merge");
 /**
  * Hangman Game Object
  */
