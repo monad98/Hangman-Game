@@ -21,7 +21,8 @@
           "main": "app"
         },
         "rxjs": {
-          "defaultExtension": "js"
+          "defaultExtension": "js",
+          "main": "bundles/Rx.umd.js"
         },
         "redux": {
           "defaultExtension": "js"
@@ -34,10 +35,10 @@
         }
       },
       map: {
-        "rxjs": "node_modules/rxjs",
-        "redux": "node_modules/redux/dist/redux.js",
-        "redux-observable": "node_modules/redux-observable/dist/redux-observable.js",
-        "redux-logger": "node_modules/redux-logger/dist/index.js"
+        "rxjs": "https://npmcdn.com/rxjs@5.1.0",
+        "redux": "https://cdnjs.cloudflare.com/ajax/libs/redux/3.6.0/redux.min.js",
+        "redux-observable": "https://unpkg.com/redux-observable@0.13.0/dist/redux-observable.min.js",
+        "redux-logger": "dist/redux-logger.js"
       }
     });
     System
