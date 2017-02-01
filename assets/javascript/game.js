@@ -1,5 +1,4 @@
-;
-(function (window, document, countries) {
+;(function (window, document, countries) {
 
   /**
    * Hangman Game Object
