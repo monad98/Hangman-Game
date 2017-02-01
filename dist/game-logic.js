@@ -5,37 +5,38 @@
 var countries_1 = require("./countries");
 var util_1 = require("./util");
 var sound_effects_1 = require("./sound-effects");
-var BehaviorSubject_1 = require("rxjs/BehaviorSubject");
-var GameLogic = (function () {
-    function GameLogic(gameView, soundEffects) {
-        this.gameView = gameView;
-        this.soundEffects = soundEffects;
-        this.selectedCountryPhotoArray = [];
-        this.selectedCountry = {};
-        this.letterGuessed = [];
-        this.remainingGuess = 6;
-        this.currentGuessedWord = [];
-        // gameOverOrUserWon: boolean = false;
-        this.winRecord = 0;
-        this.loseRecord = 0;
-        this.gameOverOrUserWon$ = new BehaviorSubject_1.BehaviorSubject(false);
+var reducer_1 = require("./reducer");
+var GameService = (function () {
+    function GameService(store) {
+        this.store = store;
     }
-    GameLogic.prototype.initializeVariable = function () {
-        /* initialize game variable after pressing new game button */
-        this.selectedCountryPhotoArray = [];
-        this.selectedCountry = {};
-        this.letterGuessed = [];
-        this.remainingGuess = 6;
-        this.currentGuessedWord = [];
-        this.gameOverOrUserWon$.next(false);
-    };
-    GameLogic.prototype.selectCountry = function () {
+    // selectedCountryPhotoArray: Array<any>  =  [];
+    // selectedCountry: any = {};
+    // letterGuessed: Array<any> = [];
+    // remainingGuess: number = 6;
+    // currentGuessedWord: Array<any> = [];
+    // gameOverOrUserWon$: BehaviorSubject<boolean>;
+    //
+    // // gameOverOrUserWon: boolean = false;
+    // winRecord: number = 0;
+    // loseRecord: number = 0;
+    // initializeVariable () {
+    //   /* initialize game variable after pressing new game button */
+    //   this.selectedCountryPhotoArray = [];
+    //   this.selectedCountry = {};
+    //   this.letterGuessed = [];
+    //   this.remainingGuess = 6;
+    //   this.currentGuessedWord = [];
+    //   this.gameOverOrUserWon$.next(false);
+    // }
+    GameService.prototype.selectCountry = function () {
+        return { type: reducer_1.SELECT_COUNTRY };
         // select a random country and make a same length hidden word to show to user
         this.selectedCountry = countries_1.countries[util_1.Util.randomIndex(countries_1.countries.length)]; //pick random country
         this.currentGuessedWord = this.selectedCountry.countryName.replace(/[a-zA-Z]/g, "_").split(""); //Hide letter except alphabetical character.
         console.log("SelectedCountry is " + this.selectedCountry.countryName);
     };
-    GameLogic.prototype.checkResult = function () {
+    GameService.prototype.checkResult = function () {
         // 1. check remaining life and if remaining life is 0, user lose
         if (this.remainingGuess === 0) {
             this.gameOverOrUserWon$.next(true);
@@ -51,11 +52,12 @@ var GameLogic = (function () {
         // 3. Game continues
         // do nothing
     };
-    GameLogic.prototype.checkInputLetter = function (letter) {
+    GameService.prototype.updateCurrentGuessedWord = function (letter) {
         //check input letter is same as each letter in country
         var isThereMatchedLetter = false;
+        var currentGuessedWord = this.store.getState().currentGuessedWord;
         var self = this;
-        this.selectedCountry.countryName
+        this.store.getState().selectedCountry.countryName
             .split("") //to array
             .forEach(function (c, index) {
             if (c.toUpperCase() === letter) {
@@ -72,14 +74,14 @@ var GameLogic = (function () {
         }
         console.log("CurrentGuessedWord is " + this.currentGuessedWord);
     };
-    GameLogic.prototype.pushToLetterGuessed = function (letter) {
-        // This function is called after checking validity of user input.
-        // Add input letter to letterGuessed array.
-        this.letterGuessed.push(letter);
-        this.letterGuessed.sort();
-        // console.log("Current letterGuessed is " + letterGuessed);
-    };
-    GameLogic.prototype.isValidInput = function (ev) {
+    // pushToLetterGuessed (letter: string) { //uppercase
+    //   // This function is called after checking validity of user input.
+    //   // Add input letter to letterGuessed array.
+    //   this.letterGuessed.push(letter);
+    //   this.letterGuessed.sort();
+    //   // console.log("Current letterGuessed is " + letterGuessed);
+    // }
+    GameService.prototype.isValidInput = function (ev) {
         var letter = ev.key;
         if (letter.length > 1)
             return false; // "Shift", "Tab" .....
@@ -94,6 +96,6 @@ var GameLogic = (function () {
         else
             return true; // user input a letter which has not been typed before, so VALID input
     };
-    return GameLogic;
+    return GameService;
 }());
-exports.GameLogic = GameLogic;
+exports.GameService = GameService;

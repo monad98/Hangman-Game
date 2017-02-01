@@ -1,7 +1,7 @@
 "use strict";
 var util_1 = require("./util");
-var GameView = (function () {
-    function GameView() {
+var ViewRenderService = (function () {
+    function ViewRenderService() {
         //DOM element
         this.containerElem = document.querySelector(".container");
         this.hangmanPhotoElem = document.querySelector("#hangmanPhoto");
@@ -22,7 +22,7 @@ var GameView = (function () {
         this.loseRecordElem = document.querySelector("#loseRecord");
         this.refreshBtnElem = document.querySelector("#refreshBtn");
     }
-    GameView.prototype.initializeView = function () {
+    ViewRenderService.prototype.initializeView = function () {
         this.hangmanPhotoElem.src = "assets/images/d-6.jpg";
         this.congratMsgBoxElem.style.display = "none";
         this.gameOverMsgBoxElem.style.display = "none";
@@ -32,46 +32,47 @@ var GameView = (function () {
         this.letterGuessedBoxElem.innerHTML = "_";
         this.audioPlayerElem.volume = 0.3;
     };
-    GameView.prototype.viewUpdateAfterUserInput = function (letter /* uppercase */, gameLogic) {
+    ViewRenderService.prototype.viewUpdateAfterUserInput = function (state) {
         var _this = this;
-        this.cursorElem.innerHTML = letter;
+        this.cursorElem.innerHTML = state.lastInputUpperCase;
         this.cursorElem.className = "";
         setTimeout(function () {
             _this.cursorElem.innerHTML = "_";
             _this.cursorElem.className = "blink"; //activate cursor animation again after 1s.
         }, 1000);
-        this.remainingGuessElem.innerHTML = gameLogic.remainingGuess.toString();
-        this.hangmanPhotoElem.src = "assets/images/d-" + gameLogic.remainingGuess + ".jpg";
-        this.currentGuessedWordElem.innerHTML = "<span>" + util_1.Util.convertEmptySpaceToNbsp(gameLogic.currentGuessedWord, letter).join("</span><span>") + "</span>";
-        this.letterGuessedBoxElem.innerHTML = "<span>" + gameLogic.letterGuessed.join("</span><span>") + "</span>";
+        this.remainingGuessElem.innerHTML = state.remainingGuess.toString();
+        this.hangmanPhotoElem.src = "assets/images/d-" + state.remainingGuess + ".jpg";
+        this.currentGuessedWordElem.innerHTML = "<span>" + util_1.Util.convertEmptySpaceToNbsp(state.currentGuessedWord, state.lastInputUpperCase).join("</span><span>") + "</span>";
+        this.letterGuessedBoxElem.innerHTML = "<span>" + state.letterGuessed.join("</span><span>") + "</span>";
     };
-    GameView.prototype.viewUpdateAfterSelectingCountry = function (gameLogic) {
-        this.currentGuessedWordElem.innerHTML = "<span>" + util_1.Util.convertEmptySpaceToNbsp(gameLogic.currentGuessedWord).join("</span><span>") + "</span>";
+    ViewRenderService.prototype.viewUpdateAfterSelectingCountry = function (state) {
+        console.log(state.currentGuessedWord);
+        this.currentGuessedWordElem.innerHTML = "<span>" + util_1.Util.convertEmptySpaceToNbsp(state.currentGuessedWord).join("</span><span>") + "</span>";
     };
-    GameView.prototype.viewUpdateForUserWonMessage = function (gameLogic) {
+    ViewRenderService.prototype.viewUpdateForUserWonMessage = function (winRecord) {
         this.congratMsgBoxElem.style.display = "inline-block";
         this.containerElem.style.opacity = "0.2";
-        this.winRecordElem.innerHTML = gameLogic.winRecord.toString();
+        this.winRecordElem.innerHTML = winRecord.toString();
     };
-    GameView.prototype.viewUpdateForUserLostMessage = function (gameLogic) {
+    ViewRenderService.prototype.viewUpdateForUserLostMessage = function (loseRecord) {
         this.gameOverMsgBoxElem.style.display = "inline-block";
         this.containerElem.style.opacity = "0.2";
-        this.loseRecordElem.innerHTML = gameLogic.loseRecord.toString();
+        this.loseRecordElem.innerHTML = loseRecord.toString();
     };
-    GameView.prototype.loadPhoto = function (photoUrl) {
+    ViewRenderService.prototype.loadPhoto = function (photoUrl) {
+        var _this = this;
         this.countryPhotoElem.src = photoUrl;
-        var self = this;
         setTimeout(function () {
-            self.stopRefreshCircle();
+            _this.stopRefreshCircle();
         }, 1000);
     };
-    GameView.prototype.loadRefreshCircle = function () {
+    ViewRenderService.prototype.loadRefreshCircle = function () {
         this.refreshBtnElem.style.display = "none";
         this.hintBoxElem.style.display = "none";
         this.countryPhotoElem.style.opacity = "0";
         this.loadingElem.style.display = "block";
     };
-    GameView.prototype.stopRefreshCircle = function () {
+    ViewRenderService.prototype.stopRefreshCircle = function () {
         //This function is called after we finish loading new country image
         //and stop showing refresh circle gif image.
         this.countryPhotoElem.style.opacity = "1";
@@ -79,7 +80,7 @@ var GameView = (function () {
         this.refreshBtnElem.style.display = ""; //to default display value
         this.containerElem.style.opacity = "1"; // we need this when new game's first image loaded.
     };
-    GameView.prototype.alreadyGuessedLetterEffect = function (letter, letterGuessed) {
+    ViewRenderService.prototype.alreadyGuessedLetterEffect = function (letter, letterGuessed) {
         var _this = this;
         // if same letter typed again, blink effect on that letter for 2.5s;
         var blinkLetterGuessed = letterGuessed.map(function (c) {
@@ -94,12 +95,12 @@ var GameView = (function () {
             _this.letterGuessedBoxElem.innerHTML = "<span>" + letterGuessed.join("</span><span>") + "</span>";
         }, 2500);
     };
-    GameView.prototype.showCountryInfo = function (selectedCountry) {
+    ViewRenderService.prototype.showCountryInfo = function (selectedCountry) {
         this.hintBoxElem.style.display = "block";
         this.capitalElem.innerHTML = selectedCountry.capital;
         this.continentElem.innerHTML = selectedCountry.continentName;
         this.populationElem.innerHTML = selectedCountry.population;
     };
-    return GameView;
+    return ViewRenderService;
 }());
-exports.GameView = GameView;
+exports.ViewRenderService = ViewRenderService;

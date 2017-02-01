@@ -18,14 +18,26 @@
       packages: {
         "dist": {
           "defaultExtension": "js",
-          "main": "game"
+          "main": "app"
         },
         "rxjs": {
+          "defaultExtension": "js"
+        },
+        "redux": {
+          "defaultExtension": "js"
+        },
+        "redux-observable": {
+          "defaultExtension": "js"
+        },
+        "redux-logger": {
           "defaultExtension": "js"
         }
       },
       map: {
-        "rxjs": "node_modules/rxjs"
+        "rxjs": "node_modules/rxjs",
+        "redux": "node_modules/redux/dist/redux.js",
+        "redux-observable": "node_modules/redux-observable/dist/redux-observable.js",
+        "redux-logger": "node_modules/redux-logger/dist/index.js"
       }
     });
     System
@@ -37,7 +49,9 @@
 <body>
 <div class="container">
   <header class="page-header">
-    <h1 class="text-center">Hangman Game <small> - Guess names of country</small></h1>
+    <h1 class="text-center">Hangman Game
+      <small> - Guess names of country</small>
+    </h1>
     <div class="pull-right audio-control">
       <audio id="audioPlayer" item-width="200" item-height="50" controls>
         <!--https://soundcloud.com/freebmusic/yris-bthelick-on-sen-va-freebackgroundmusic-->
@@ -62,12 +76,12 @@
           <div class="thumbnail no-margin relative">
             <!--source: https://pixabay.com/en/international-world-flags-countries-1751293/-->
             <img id="countryPhoto" src="assets/images/flags.png" alt="Country Photo">
-            <img id="loading" src="assets/images/loading.gif">
+            <img id="loading" src="assets/images/loading.gif" alt="loading...">
             <button id="refreshBtn" class="btn btn-info"><i class="glyphicon glyphicon-refresh"></i></button>
             <button id="hintBtn" class="btn btn-success">Hint?</button>
             <div id="hint">
               <table class="table table-striped">
-                <th class="text-center" colspan="2">Hint</th>
+                <tr><th class="text-center" colspan="2">Hint</th></tr>
                 <tr>
                   <td>Capital</td>
                   <td id="capital"></td>
@@ -119,11 +133,11 @@
 </div>
 <!--source: https://pixabay.com/en/banner-postcard-day-st-plate-flag-2005219/-->
 <div id="congratulation">
-  <img src="assets/images/congratulation.png">
+  <img src="assets/images/congratulation.png" alt="user won">
   <button id="newGameBtn-c" class="btn btn-danger btn-lg">Start New Game</button>
 </div>
 <div id="gameover">
-  <img src="assets/images/gameover.jpg">
+  <img src="assets/images/gameover.jpg" alt="user lost">
   <button id="newGameBtn-g" class="btn btn-danger btn-lg">Start New Game</button>
 </div>
 </body>

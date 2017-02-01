@@ -7,6 +7,6 @@
     "outDir": "./dist"
   },
   "files": [
-    "assets/javascript/game.ts"
+    "assets/javascript/app.ts"
   ]
 }

@@ -2,7 +2,7 @@
  * Created by monad on 1/30/17.
  */
 export class Util {
-  static randomIndex (arryLength: number) {
+  static randomIndex (arryLength: number):number {
     // function to pick random index from array;
     return Math.floor(Math.random() * arryLength);
   }

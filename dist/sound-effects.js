@@ -4,12 +4,12 @@
  */
 var SoundEffects = (function () {
     function SoundEffects() {
-        this.wrong = "assets/sounds/wrong.mp3";
-        this.correct = "assets/sounds/correct.mp3";
     }
     SoundEffects.playSound = function (sound) {
         (new Audio(sound)).play();
     };
     return SoundEffects;
 }());
+SoundEffects.wrong = "assets/sounds/wrong.mp3";
+SoundEffects.correct = "assets/sounds/correct.mp3";
 exports.SoundEffects = SoundEffects;
