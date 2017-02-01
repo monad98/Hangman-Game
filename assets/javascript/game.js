@@ -15,8 +15,8 @@
     var congratMsgBoxElem = document.getElementById("congratulation");
     var gameOverMsgBoxElem = document.getElementById("gameover");
     var hintBoxElem = document.getElementById("hint");
-    var currentGuessedWordElem =  document.getElementById("currentGuessedWord");
-    var remainingGuessElem =  document.getElementById("remainingGuess");
+    var currentGuessedWordElem = document.getElementById("currentGuessedWord");
+    var remainingGuessElem = document.getElementById("remainingGuess");
     var letterGuessedBoxElem = document.getElementById("letterGuessed");
     var audioPlayerElem = document.getElementById("audioPlayer");
     var cursorElem = document.getElementById("cursor");
@@ -52,17 +52,30 @@
       },
       getCountryPhotos: function (countryName, callback) {
         // function to get json array of selected country photo using Flickr Api
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", this.flickrSearchURL + countryName);
-        xhr.onload = function () {
-          if (xhr.status === 200) {
-            gameLogic.selectedCountryPhotoArray = JSON.parse(xhr.responseText).photos.photo;
-            callback();
-          } else {
-            alert("Request failed. Status: " + xhr.status);
-          }
-        };
-        xhr.send();
+        var self = this;
+        var retryCount = 0;
+        var selectedCountryPhotoArray;
+        doRequest();
+        function doRequest() {
+          var xhr = new XMLHttpRequest();
+          xhr.open("GET", self.flickrSearchURL + countryName);
+          xhr.onload = function () {
+            if (xhr.status === 200) {
+              gameLogic.selectedCountryPhotoArray = JSON.parse(xhr.responseText).photos.photo;
+              //if there is no photo fetched, retry 3 more times
+              if (gameLogic.selectedCountryPhotoArray.length === 0 && retryCount < 3) {
+                retryCount++;
+                doRequest();
+                console.log("Retry Count: " + retryCount);
+              } else {
+                callback();
+              }
+            } else {
+              alert("Request failed. Status: " + xhr.status);
+            }
+          };
+          xhr.send();
+        }
       }
     };
 

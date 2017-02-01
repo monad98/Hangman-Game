@@ -12,6 +12,7 @@ body {
   top: 8px;
   left: 8px;
 }
+
 #hint {
   display: none;
   position: absolute;
@@ -21,11 +22,13 @@ body {
   background-color: #fff;
   padding: 15px;
 }
+
 #hintBtn {
   position: absolute;
   top: 8px;
   right: 8px;
 }
+
 #loading {
   display: none;
   position: absolute;
@@ -132,6 +135,7 @@ header.page-header small {
   left: 30%;
   transform: translateX(-30%);
 }
+
 #scoreBoard {
   position: absolute;
   top: 15px;
@@ -144,10 +148,16 @@ header.page-header small {
   color: #337ab7;
   text-shadow: 1px 1px 6px yellow;
 }
+
 .panel-body {
   padding: 8px;
 }
 
 .audio-control {
   margin: 15px 15px 0 15px;
+}
+
+#audioPlayer {
+  width: 200;
+  height: 50;
 }
