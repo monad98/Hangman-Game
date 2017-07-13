@@ -33,6 +33,8 @@
     var flickr = {
       flickrGetInfoURL: "https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&nojsoncallback=1&format=json&api_key=05c2c4785d9125f67f7aaafc765a1739&photo_id=",
       flickrSearchURL: "https://api.flickr.com/services/rest/?method=flickr.photos.search&sort=relevance&format=json&nojsoncallback=1&per_page=50&api_key=05c2c4785d9125f67f7aaafc765a1739&tags=",
+      
+      
       // method for fetching country photo using Flick API
       getPhotoInfo: function (photoId, callback) {
         // Function to get selected photo's url from photo's id through Flickr Api
